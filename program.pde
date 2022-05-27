@@ -10,7 +10,7 @@ void draw() {
   fill(fillVal);
   rect(x, y, 50, 50);
 }
-
+ 
 void keyPressed() {
   if (key == CODED) {
     if (keyCode == UP) {
