@@ -1,6 +1,10 @@
-int x = 0;
-int y = 0;
+int x = 700;
+int y = 600;
 color fillVal = color(126);
+float angle1 = 0;
+
+
+
 Controller keyboardInput;
 
 void keyPressed() {
@@ -10,9 +14,15 @@ void keyPressed() {
 void keyReleased() {
   keyboardInput.release(keyCode);
 }
+/*
+void mouseClicked() {
+  Orb newOrb = new Orb(mouseX, mouseY, 5, 0, 30);
+  orbList.add(newOrb);
 
+}
+*/
 void setup() {  
-  size(1600, 1600);
+  size(1400, 1000);
   background(#248749);
   keyboardInput = new Controller();
 }
@@ -35,12 +45,24 @@ void draw() {
   if (keyboardInput.isPressed(Controller.P1_DOWN)) {
     y += 10;
   }  
+  if(x > 1380){x = -30;}
+  if(x < -30){x = 1380;}
+  if(y > 980){y = -30;}
+  if(y < -30){y = 980;}
+  float dx = mouseX - x;
+  float dy = mouseY - y;
+  float angle1 = atan2(dy, dx);
+  
+  pushMatrix();
+  translate(x + 25, y + 25);
+  rotate(angle1 - 25);
+  line(0, 0, 100, 0);
+  popMatrix();
+  
   fill(fillVal);
   rect(x, y, 50, 50);
 }
 
-
-/**************CONTROLLER TAB************/
 class Controller {
   static final int P1_LEFT = 0;
   static final int P1_RIGHT = 1;
