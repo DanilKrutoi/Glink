@@ -12,11 +12,11 @@ int[][] hi = {
   {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 
   {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 
   {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 
+  {0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 
+  {0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 
+  {0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 
   {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 
-  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 
-  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 
-  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 
-  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 
+  {0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 
   {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 
   {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 
   {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 
@@ -202,29 +202,40 @@ class Controller {
 
 void draw() {
   background(#248749);
-  for (Bullet o : bullets) {
-    o.drawBullet();
-    if (o.x > 600) {
-      o = null;
+  for (int i = 0; i < 25; i++) {
+    for (int j = 0; j < 56; j++) {
+      if (back.getChord(i, j) == 0) {
+        fill(255, 255, 255);
+      }
+      if (back.getChord(i, j) == 1) {
+        fill(0);
+      }
+      square(j * 40, i * 40, 40);
     }
   }
-  //check if the button P1_LEFT is being pressed:
-  if (keyboardInput.isPressed(Controller.P1_LEFT)) {
-    mainMan.moveLeft();
-  }
-  //check if the button P1_RIGHT is being pressed:
-  if (keyboardInput.isPressed(Controller.P1_RIGHT)) {
-    mainMan.moveRight();
-  }
-  if (keyboardInput.isPressed(Controller.P1_UP)) {
-    mainMan.moveUp();
-  }
-  if (keyboardInput.isPressed(Controller.P1_DOWN)) {
-    mainMan.moveDown();
-  }  
+    for (Bullet o : bullets) {
+      o.drawBullet();
+      if (o.x > 600) {
+        o = null;
+      }
+    }
+    //check if the button P1_LEFT is being pressed:
+    if (keyboardInput.isPressed(Controller.P1_LEFT)) {
+      mainMan.moveLeft();
+    }
+    //check if the button P1_RIGHT is being pressed:
+    if (keyboardInput.isPressed(Controller.P1_RIGHT)) {
+      mainMan.moveRight();
+    }
+    if (keyboardInput.isPressed(Controller.P1_UP)) {
+      mainMan.moveUp();
+    }
+    if (keyboardInput.isPressed(Controller.P1_DOWN)) {
+      mainMan.moveDown();
+    }  
 
 
-  fill(fillVal);
-  rect(mainMan.getx(), mainMan.gety(), 50, 50);
-  mainMan.checkEdge();
-}
+    fill(fillVal);
+    rect(mainMan.getx(), mainMan.gety(), 50, 50);
+    mainMan.checkEdge();
+  }
