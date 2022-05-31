@@ -1,10 +1,73 @@
-int x = 700;
-int y = 600;
 color fillVal = color(126);
-float angle1 = 0;
+ArrayList<Bullet> bullets = new ArrayList<Bullet>();
+Glorp mainMan = new Glorp(600, 500);
+
+public class Glorp {
+  float x, y, points, health;
+  String gun;
+  boolean isAlive;
+  public Glorp(float daX, float daY) {
+    this.x = daX;
+    this.y = daY;
+    this.health = 100;
+    this.points = 0;
+    this.gun = "basic";
+    this.isAlive = true;
+  }
+  public void moveRight() {
+    this.x += 10;
+  }
+  public void moveLeft() {
+    this.x -= 10;
+  }
+  public void moveUp() {
+    this.y -= 10;
+  }
+  public void moveDown() {
+    this.y += 10;
+  }
+  public float getx() {
+    return x;
+  }
+  public float gety() {
+    return y;
+  }
+  public void checkEdge() {
+    if (x > 1380) {
+      x = -30;
+    }
+    if (x < -30) {
+      x = 1380;
+    }
+    if (y > 980) {
+      y = -30;
+    }
+    if (y < -30) {
+      y = 980;
+    }
+  }
+}
+
+class Bullet {
+  float x, y, vy, dx, dy, angle;
+  float size;
+
+  Bullet(Glorp daMan) {
+    this.x = daMan.x + 25;
+    this.y = daMan.y + 25;
+    this.size = 10;
+    this.dx = mouseX - daMan.x;
+    this.dy = mouseY - daMan.y;
+  }
 
 
-
+  void drawBullet() {
+    fill(255);
+    ellipse(x, y, 20, 20);
+    x += dx / 40;
+    y += dy / 40;
+  }
+}
 Controller keyboardInput;
 
 void keyPressed() {
@@ -14,53 +77,16 @@ void keyPressed() {
 void keyReleased() {
   keyboardInput.release(keyCode);
 }
-/*
-void mouseClicked() {
-  Orb newOrb = new Orb(mouseX, mouseY, 5, 0, 30);
-  orbList.add(newOrb);
 
+void mouseClicked() {
+  Bullet newBullet = new Bullet(mainMan);
+  bullets.add(newBullet);
 }
-*/
+
 void setup() {  
   size(1400, 1000);
   background(#248749);
   keyboardInput = new Controller();
-}
-
-//Visualize which keys are being held down...
-void draw() {
-  background(#248749);
-
-  //check if the button P1_LEFT is being pressed:
-  if (keyboardInput.isPressed(Controller.P1_LEFT)) {
-    x -= 10;
-  }
-  //check if the button P1_RIGHT is being pressed:
-  if (keyboardInput.isPressed(Controller.P1_RIGHT)) {
-    x+=10;
-  }
-  if (keyboardInput.isPressed(Controller.P1_UP)) {
-    y -= 10;
-  }
-  if (keyboardInput.isPressed(Controller.P1_DOWN)) {
-    y += 10;
-  }  
-  if(x > 1380){x = -30;}
-  if(x < -30){x = 1380;}
-  if(y > 980){y = -30;}
-  if(y < -30){y = 980;}
-  float dx = mouseX - x;
-  float dy = mouseY - y;
-  float angle1 = atan2(dy, dx);
-  
-  pushMatrix();
-  translate(x + 25, y + 25);
-  rotate(angle1 - 25);
-  line(0, 0, 100, 0);
-  popMatrix();
-  
-  fill(fillVal);
-  rect(x, y, 50, 50);
 }
 
 class Controller {
@@ -75,14 +101,11 @@ class Controller {
     inputs = new boolean[4];//2 valid buttons
   }
 
-  /**@param code: a valid constant e.g. P1_LEFT
-   */
   boolean isPressed(int code) {
     return inputs[code];
   }
 
   void press(int code) {
-    println(code);
     if (code == 'A')
       inputs[P1_LEFT] = true;
     if (code == 'D')
@@ -103,3 +126,33 @@ class Controller {
       inputs[P1_DOWN] = false;
   }
 }
+
+void draw() {
+  background(#248749);
+  for (Bullet o : bullets) {
+    o.drawBullet();
+    if(o.x > 600){o = null;}
+  }
+  //check if the button P1_LEFT is being pressed:
+  if (keyboardInput.isPressed(Controller.P1_LEFT)) {
+    mainMan.moveLeft();
+  }
+  //check if the button P1_RIGHT is being pressed:
+  if (keyboardInput.isPressed(Controller.P1_RIGHT)) {
+    mainMan.moveRight();
+  }
+  if (keyboardInput.isPressed(Controller.P1_UP)) {
+    mainMan.moveUp();
+  }
+  if (keyboardInput.isPressed(Controller.P1_DOWN)) {
+    mainMan.moveDown();
+  }  
+
+
+  fill(fillVal);
+  rect(mainMan.getx(), mainMan.gety(), 50, 50);
+  mainMan.checkEdge();  
+
+}
+
+
