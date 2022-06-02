@@ -1,5 +1,6 @@
 color fillVal = color(126);
 ArrayList<Bullet> bullets = new ArrayList<Bullet>();
+//ArrayList<BadBullet> badBullets = new ArrayList<BadBullet>();
 int[][] hi = {
   {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 
   {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 
@@ -58,6 +59,7 @@ int[][] hi = {
   {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 
   {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0} 
 };
+int timer;
 Background back = new Background(hi);
 
 Glorp mainMan = new Glorp(600, 500);
@@ -138,11 +140,39 @@ class Bullet {
     fill(255);
     ellipse(x, y, 20, 20);
     float distance = sqrt(((dx*dx) + (dy*dy)));
-    
+
     x += dx / distance * 10;
     y += dy / distance * 10;
   }
 }
+public class badGuy{
+  
+  int asdad = 1;
+}
+/*
+class BadBullet {
+  float x, y, vy, dx, dy, angle;
+  float size;
+
+  BadBullet(badGuy daMan) {
+    this.x = daMan.x + 25;
+    this.y = daMan.y + 25;
+    this.size = 10;
+    this.dx = mouseX - daMan.x;
+    this.dy = mouseY - daMan.y;
+  }
+
+
+  void drawBullet() {
+    fill(255);
+    ellipse(x, y, 20, 20);
+    float distance = sqrt(((dx*dx) + (dy*dy)));
+
+    x += dx / distance * 10;
+    y += dy / distance * 10;
+  }
+}
+*/
 Controller keyboardInput;
 
 void keyPressed() {
@@ -215,29 +245,35 @@ void draw() {
       square(j * 40, i * 40, 40);
     }
   }
-    for (Bullet o : bullets) {
-      o.drawBullet();
-      if (o.x > 600) {
-        o = null;
-      }
+  for (Bullet o : bullets) {
+    o.drawBullet();
+    if (o.x > 600) {
+      o = null;
     }
-    //check if the button P1_LEFT is being pressed:
-    if (keyboardInput.isPressed(Controller.P1_LEFT)) {
-      mainMan.moveLeft();
-    }
-    //check if the button P1_RIGHT is being pressed:
-    if (keyboardInput.isPressed(Controller.P1_RIGHT)) {
-      mainMan.moveRight();
-    }
-    if (keyboardInput.isPressed(Controller.P1_UP)) {
-      mainMan.moveUp();
-    }
-    if (keyboardInput.isPressed(Controller.P1_DOWN)) {
-      mainMan.moveDown();
-    }  
-
-
-    fill(fillVal);
-    rect(mainMan.getx(), mainMan.gety(), 50, 50);
-    mainMan.checkEdge();
   }
+  //check if the button P1_LEFT is being pressed:
+  if (keyboardInput.isPressed(Controller.P1_LEFT)) {
+    mainMan.moveLeft();
+  }
+  //check if the button P1_RIGHT is being pressed:
+  if (keyboardInput.isPressed(Controller.P1_RIGHT)) {
+    mainMan.moveRight();
+  }
+  if (keyboardInput.isPressed(Controller.P1_UP)) {
+    mainMan.moveUp();
+  }
+  if (keyboardInput.isPressed(Controller.P1_DOWN)) {
+    mainMan.moveDown();
+  }  
+
+
+  fill(fillVal);
+  rect(mainMan.getx(), mainMan.gety(), 50, 50);
+  mainMan.checkEdge();
+  ellipse(1000,200,40,40);
+  if (millis() - timer >= 1000) {
+    print(random(255));
+    //shoot
+    timer = millis();
+  }
+}
