@@ -141,8 +141,8 @@ class Bullet {
     ellipse(x, y, 20, 20);
     float distance = sqrt(((dx*dx) + (dy*dy)));
 
-    x += dx / distance * 10;
-    y += dy / distance * 10;
+    x += dx / distance * 20;
+    y += dy / distance * 20;
   }
 }
 public class badGuy{
@@ -189,7 +189,7 @@ void mousePressed() {
 }
 
 void setup() {  
-  size(1400, 1000);
+  size(1280, 880);
   background(#248749);
   keyboardInput = new Controller();
 }
