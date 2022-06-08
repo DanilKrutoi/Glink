@@ -1,0 +1,8 @@
+public class Game {
+  //board[][] places;
+  //ArrayList<Actor> actors = new ArrayList<Actor>();
+  boolean started;
+
+  public drawBackground() {
+  }
+}
