@@ -173,11 +173,10 @@ class Actor {
 
 class Glorp extends Actor {
   int points;
-
   public Glorp(int daX, int daY) {
     super(daX, daY);
     points = 0;
-    health = 100;
+    health = 10;
   }
   public void moveRight() {
     if (x < 1220) 
@@ -216,6 +215,7 @@ class Glorp extends Actor {
         break;
       }
     }
+     if(health <= 0){isDead = true;}
   }
 }
   class Enemy extends Actor {
@@ -397,4 +397,10 @@ class Glorp extends Actor {
       timer = millis();
     }
     theGame.displayStats();
+    if(mainMan.isDead == true){
+    background(#248749);
+    textsize(100);
+    fill(255);
+    text("game over", 500,500);
+}
   }
