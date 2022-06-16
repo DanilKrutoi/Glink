@@ -215,192 +215,194 @@ class Glorp extends Actor {
         break;
       }
     }
-     if(health <= 0){isDead = true;}
+    if (health <= 0) {
+      isDead = true;
+    }
   }
 }
-  class Enemy extends Actor {
-    int agression;
-    public Enemy(int daX, int daY) {
-      super(daX, daY);
-    }
-    public void move() {
-      float dx = mainMan.getX() + 20;
-      float dy = mainMan.getY() + 20;
-      float angle = atan2(dy - y, dx-x);
-      float newX = cos(angle) * 2;
-      float newY = sin(angle) * 2;
-      x += newX;
-      y += newY;
-    }
+class Enemy extends Actor {
+  int agression;
+  public Enemy(int daX, int daY) {
+    super(daX, daY);
   }
-  class Glick extends Enemy {
-    public Glick(int daX, int daY) {
-      super(daX, daY);
-      agression = 1;
-    }
+  public void move() {
+    float dx = mainMan.getX() + 20;
+    float dy = mainMan.getY() + 20;
+    float angle = atan2(dy - y, dx-x);
+    float newX = cos(angle) * 2;
+    float newY = sin(angle) * 2;
+    x += newX;
+    y += newY;
   }
-  class Glack extends Enemy {
-    public Glack(int daX, int daY) {
-      super(daX, daY);
-      agression = 2;
-    }
-    public void move() {
-    }
+}
+class Glick extends Enemy {
+  public Glick(int daX, int daY) {
+    super(daX, daY);
+    agression = 1;
   }
-  class Gleck extends Enemy {
-    public Gleck(int daX, int daY) {
-      super( daX, daY);
-      agression = 3;
-    }
-    public void move() {
-    }
+}
+class Glack extends Enemy {
+  public Glack(int daX, int daY) {
+    super(daX, daY);
+    agression = 2;
   }
-  class Glock extends Enemy {
-    public Glock(int daX, int daY) {
-      super(daX, daY);
-      agression = 0;
-    }
-    public void move() {
-    }
-    public void shoot() {
-    }
+  public void move() {
   }
-  class Gluck extends Enemy {
-    public Gluck(int daX, int daY) {
-      super(daX, daY);
-      agression = 1;
-    }
-    public void move() {
-    }
-    //alot of health
+}
+class Gleck extends Enemy {
+  public Gleck(int daX, int daY) {
+    super( daX, daY);
+    agression = 3;
   }
+  public void move() {
+  }
+}
+class Glock extends Enemy {
+  public Glock(int daX, int daY) {
+    super(daX, daY);
+    agression = 0;
+  }
+  public void move() {
+  }
+  public void shoot() {
+  }
+}
+class Gluck extends Enemy {
+  public Gluck(int daX, int daY) {
+    super(daX, daY);
+    agression = 1;
+  }
+  public void move() {
+  }
+  //alot of health
+}
 
-  class Projectile {
-    float x, y, size;
-    public Projectile(int a, int b) {
-      x = a;
-      y = b;
-    }
+class Projectile {
+  float x, y, size;
+  public Projectile(int a, int b) {
+    x = a;
+    y = b;
   }
-  class GoodBullet extends Projectile {
-    float dx, dy;
+}
+class GoodBullet extends Projectile {
+  float dx, dy;
 
-    public GoodBullet(Glorp daMan) {
-      super(daMan.getX() + 25, daMan.getY() + 25);    
-      size = 10;
-      dx = mouseX - daMan.getX();
-      dy = mouseY - daMan.getY();
-    }
-    public void move() {
-      ellipse(x, y, 21, 20);
-      float distance = sqrt(((dx*dx) + (dy*dy)));
-      x += dx / distance * 20;
-      y += dy / distance * 20;
-    }
+  public GoodBullet(Glorp daMan) {
+    super(daMan.getX() + 25, daMan.getY() + 25);    
+    size = 10;
+    dx = mouseX - daMan.getX();
+    dy = mouseY - daMan.getY();
   }
-  class BadBullet extends Projectile {
-    float dx, dy;
-
-    public BadBullet(Enemy daMan, Glorp daHomie) {
-      super(daMan.getX() + 25, daMan.getY() + 25);    
-      size = 10;
-      dx = daHomie.getX();
-      dy = daHomie.getY();
-    }
-    public void move() {
-      ellipse(x, y, 21, 20);
-      float distance = sqrt(((dx*dx) + (dy*dy)));
-      x += dx / distance * 20;
-      y += dy / distance * 20;
-    }
+  public void move() {
+    ellipse(x, y, 21, 20);
+    float distance = sqrt(((dx*dx) + (dy*dy)));
+    x += dx / distance * 20;
+    y += dy / distance * 20;
   }
+}
+class BadBullet extends Projectile {
+  float dx, dy;
+
+  public BadBullet(Enemy daMan, Glorp daHomie) {
+    super(daMan.getX() + 25, daMan.getY() + 25);    
+    size = 10;
+    dx = daHomie.getX();
+    dy = daHomie.getY();
+  }
+  public void move() {
+    ellipse(x, y, 21, 20);
+    float distance = sqrt(((dx*dx) + (dy*dy)));
+    x += dx / distance * 20;
+    y += dy / distance * 20;
+  }
+}
 
 
 
-  class Game {
+class Game {
 
-    boolean started;
+  boolean started;
 
-    public void drawBackground() {
-      for (int i = 0; i < 25; i++) {
-        for (int j = 0; j < 60; j++) {
-          if (ello.getChord(i, j) == 0) {
-            image(img1, j*32, i*32);
-          } else if (ello.getChord(i, j) == 1) {
-            image(img2, j*32, i *32);
-          } else if (ello.getChord(i, j) == 2) {
-            image(img3, j*32, i *32);
-          } else if (ello.getChord(i, j) == 3) {
-            image(img4, j*32, i *32);
-          }
+  public void drawBackground() {
+    for (int i = 0; i < 25; i++) {
+      for (int j = 0; j < 60; j++) {
+        if (ello.getChord(i, j) == 0) {
+          image(img1, j*32, i*32);
+        } else if (ello.getChord(i, j) == 1) {
+          image(img2, j*32, i *32);
+        } else if (ello.getChord(i, j) == 2) {
+          image(img3, j*32, i *32);
+        } else if (ello.getChord(i, j) == 3) {
+          image(img4, j*32, i *32);
         }
       }
     }
-    public void run() {
+  }
+  public void run() {
+  }
+  public void displayStats() {
+    textSize(15);
+    fill(0);
+    text("HP: " + mainMan.health, mainMan.getX(), mainMan.getY() - 5);
+    text("Points: " + mainMan.points, 1201, 20);
+  }
+  public void displayMenu() {
+  }
+  public void displayGameOver() {
+  }
+  public void displayChars() {
+    for (Enemy b : actors) {
+      fill(color(226));
+      ellipse(b.x, b.y, 40, 40);
+      b.move();
     }
-    public void displayStats() {
-      textSize(15);
-      fill(0);
-      text("HP: " + mainMan.health, mainMan.getX(), mainMan.getY() - 5);
-      text("Points: " + mainMan.points, 1201, 20);
-    }
-    public void displayMenu() {
-    }
-    public void displayGameOver() {
-    }
-    public void displayChars() {
-      for (Enemy b : actors) {
-        fill(color(226));
-        ellipse(b.x, b.y, 40, 40);
-        b.move();
-      }
 
-      fill(color(126));
-      rect(mainMan.getX(), mainMan.getY(), 51, 50);
-    }
-    public void displayBullets() {
-      for (GoodBullet o : daBullets) {
-        o.move();
-      }
+    fill(color(126));
+    rect(mainMan.getX(), mainMan.getY(), 51, 50);
+  }
+  public void displayBullets() {
+    for (GoodBullet o : daBullets) {
+      o.move();
     }
   }
-
-  void draw() {
-    mainMan.touchBadGuy();
-    if (keyboardInput.isPressed(Controller.P1_LEFT)) {
-      mainMan.moveLeft();
-    }
-    //check if the button P1_RIGHT is being pressed:
-    if (keyboardInput.isPressed(Controller.P1_RIGHT)) {
-      mainMan.moveRight();
-    }
-    if (keyboardInput.isPressed(Controller.P1_UP)) {
-      mainMan.moveUp();
-    }
-    if (keyboardInput.isPressed(Controller.P1_DOWN)) {
-      mainMan.moveDown();
-    } 
-    theGame.drawBackground();
-    theGame.displayBullets();
-    theGame.displayChars();
-    if (millis() - timer >= 1000) {
-      //println(random(255));
-      //shoot
-      if (int(random(0, 2)) == 0) {
-        Glick glickarino = new Glick(int(random(0, 300)), int(random(0, 800)));
-        actors.add(glickarino);
-      } else {
-        Glick glickarino = new Glick(int(random(1000, 1300)), int(random(0, 800)));  
-        actors.add(glickarino);
-      }
-
-      timer = millis();
-    }
-    theGame.displayStats();
-    if(mainMan.isDead == true){
-    background(#248749);
-    textsize(100);
-    fill(255);
-    text("game over", 500,500);
 }
+
+void draw() {
+  mainMan.touchBadGuy();
+  if (keyboardInput.isPressed(Controller.P1_LEFT)) {
+    mainMan.moveLeft();
   }
+  //check if the button P1_RIGHT is being pressed:
+  if (keyboardInput.isPressed(Controller.P1_RIGHT)) {
+    mainMan.moveRight();
+  }
+  if (keyboardInput.isPressed(Controller.P1_UP)) {
+    mainMan.moveUp();
+  }
+  if (keyboardInput.isPressed(Controller.P1_DOWN)) {
+    mainMan.moveDown();
+  } 
+  theGame.drawBackground();
+  theGame.displayBullets();
+  theGame.displayChars();
+  if (millis() - timer >= 1000) {
+    //println(random(255));
+    //shoot
+    if (int(random(0, 2)) == 0) {
+      Glick glickarino = new Glick(int(random(0, 300)), int(random(0, 800)));
+      actors.add(glickarino);
+    } else {
+      Glick glickarino = new Glick(int(random(1000, 1300)), int(random(0, 800)));  
+      actors.add(glickarino);
+    }
+
+    timer = millis();
+  }
+  theGame.displayStats();
+  if (mainMan.isDead == true) {
+    background(#248749);
+    textSize(100);
+    fill(255);
+    text("game over", 500, 500);
+  }
+}
