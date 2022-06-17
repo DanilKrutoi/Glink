@@ -88,6 +88,7 @@ void mousePressed() {
 }
 
 void setup() {  
+  Glick bambino = new Glick(1000000, 100000000);
   size(1281, 800);
   background(#248749);
   keyboardInput = new Controller();
@@ -234,6 +235,16 @@ class Enemy extends Actor {
     x += newX;
     y += newY;
   }
+  public boolean checkAlive() {
+    for (GoodBullet i : daBullets) {
+      float distance = dist(x, y, i.x, i.y);
+      if (distance < 60) {
+        daBullets.remove(i);
+        return true;
+      }
+    }
+    return false;
+  }
 }
 class Glick extends Enemy {
   public Glick(int daX, int daY) {
@@ -351,12 +362,17 @@ class Game {
   public void displayGameOver() {
   }
   public void displayChars() {
+
     for (Enemy b : actors) {
       fill(color(226));
       ellipse(b.x, b.y, 40, 40);
+      if (b.checkAlive()) {
+        actors.remove(b);
+        mainMan.points ++;
+        break;
+      }
       b.move();
     }
-
     fill(color(126));
     rect(mainMan.getX(), mainMan.getY(), 51, 50);
   }
@@ -385,7 +401,7 @@ void draw() {
   theGame.drawBackground();
   theGame.displayBullets();
   theGame.displayChars();
-  if (millis() - timer >= 1000) {
+  if (millis() - timer >= 300) {
     //println(random(255));
     //shoot
     if (int(random(0, 2)) == 0) {
@@ -405,4 +421,11 @@ void draw() {
     fill(255);
     text("game over", 500, 500);
   }
+  if (mainMan.points >= 100 && mainMan.isDead != true){
+    background(#248749);
+    textSize(100);
+    fill(255);
+    text("You win!", 500, 500);
+  }
+  
 }
